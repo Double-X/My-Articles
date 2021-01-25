@@ -1,0 +1,4897 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset='UTF-8'>
+
+        <script>
+            /* Toggles the content visibility and the spoiler text
+             * Functional cohesion/Data coupling/Self-symmetrical
+             * @param {string} spoilerId - The id of the spoiler dom
+             * @param {string} contentId - The id of the contents to be toggled
+             */
+            function toggleSpoiler(spoilerId, contentId) {
+                var style = document.getElementById(contentId).style;
+                style.display = style.display === 'none' ? '' : 'none';
+                var spoiler = document.getElementById(spoilerId);
+                if (spoiler.textContent === 'Show') {
+                    spoiler.textContent = 'Hide';
+                } else {
+                    spoiler.textContent = 'Show';
+                }
+            };
+        </script>
+
+        <title>Introductory Side Effect Algebra</title>
+
+    </head>
+
+    <body>
+
+        <hr>
+
+        <div id='contents'>
+            
+            <h1>Contents</h1>
+            <a href='#scope'>Scope</a>
+            <br>
+            <a href='#prereq'>Prerequisites</a>
+            <br>
+            <a href='#notation'>Notation</a>
+            <br>
+            <a href='#equal'>Equality</a>
+            <br>
+            <a href='#add'>Addition</a>
+            <br>
+            <a href='#minus'>Subtraction</a>
+            <br>
+            <a href='#orthogonal'>Orthogonality</a>
+            <br>
+            <a href='#nullipotent'>Nullipotence</a>
+            <br>
+            <a href='#multiplicity'>Multiplicity</a>
+            <br>
+            <a href='#summary'>Summary</a>
+            
+        </div>
+
+        <br>
+        
+        <hr>
+
+        <div id='scope'>
+             
+            <h2>Scope</h2>
+            
+            This article aims to briefly cover the elementary level side effect algebra mentioned in contents as a simple introduction for beginners.
+            <br>
+            Note that nondeterministic side effects are beyond the scope of this article in order to keep the scope small enough to be sufficiently easy.
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+
+        <div id='prereq'>
+            
+            <h2>Prerequisites</h2>
+            You are supposed to have at least a basic knowledge on the following:
+            <br>
+            1. <a href='https://en.wikipedia.org/wiki/Side_effect_(computer_science)'>Side Effect</a>
+            <br>
+            2. <a href='https://en.wikipedia.org/wiki/First-order_logic'>First Order Logic</a>
+            <br>
+            3. <a href='https://en.wiktionary.org/wiki/nullipotent'>Nullipotence</a>
+            <br>
+            4. <a href='https://en.wikipedia.org/wiki/Additive_identity'>Additive Identity</a>
+            <br>
+            5. <a href='https://en.wikipedia.org/wiki/Additive_inverse'>Additive Inverse</a>
+            <br>
+            6. <a href='https://en.wikipedia.org/wiki/Symmetry_equal'>Symmetry Operation</a>
+            <br>
+            7. <a href='https://en.wikipedia.org/wiki/Involution_(mathematics)'>Involution</a>
+            <br>
+            8. <a href='https://en.wikipedia.org/wiki/Periodic_function'>Periodic Function</a>
+            <br>
+            9. <a href='https://en.wikipedia.org/wiki/Orthogonality_(programming)'>Orthogonality</a>
+            <br>
+            10. <a href='https://en.wikipedia.org/wiki/Idempotence#Computer_science_meaning'>Idempotence</a>
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+
+        <div id='notation'>
+            
+            <h2>Notation</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='notationSpoiler' onclick='toggleSpoiler("notationSpoiler", "notationContents")'>Hide</button>
+            
+            <div id='notationContents'>
+                
+                Let <math><mi>E</mi></math> be a side effect. Then:
+                <br>
+                1.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                    means <math><mi>E</mi></math> is based on input set <math><mi>I</mi></math> and state set <math><mi>S</mi></math>.
+                </mark>
+                <br>
+                2.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mo>&#x2205;</mo>
+                    </math>
+                    means <math><mi>E</mi></math> is effectively nullipotent for input set <math><mi>I</mi></math> and state set <math><mi>S</mi></math>.
+                </mark>
+                <br>
+                3.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                    means <math><mi>E</mi></math> does not depend on any input set.
+                </mark>
+                <br>
+                4.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>)</mo>
+                    </math>
+                    means <math><mi>E</mi></math> does not depend on any state set.
+                </mark>
+                <br>
+                5.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>,</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>)</mo>
+                    </math>
+                    means both of the above.
+                </mark>
+                <br>
+                6.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>n</mi>
+                        </msub>
+                    </math>
+                    means the relevant state set is changed from
+                    <math>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                    </math>
+                    to
+                    <math>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>n</mi>
+                        </msub>
+                    </math>
+                    by applying
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>.
+                <br>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += I;
+                    <br>
+                    };
+                </code>
+                <br>
+                As
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mi>S</mi>
+                    <mo>+</mo>
+                    <mi>I</mi>
+                </math>
+                after calling <math><mi>E</mi></math>, <math><mi>E</mi></math> is based on input set <math><mi>I</mi></math> and state set <math><mi>S</mi></math>.
+                <br>
+                On the other hand:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = I;
+                    <br>
+                    };
+                </code>
+                <br>
+                <math>
+                    <mi>E</mi>
+                    <mo>(</mo>
+                    <mi>I</mi>
+                    <mo>,</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mo>&#x2205;</mo>
+                </math>
+                when
+                <math>
+                    <mi>S</mi>
+                    <mo>=</mo>
+                    <mi>I</mi>
+                </math>
+                and
+                <math>
+                    <mi>E</mi>
+                    <mo>(</mo>
+                    <mi>I</mi>
+                    <mo>,</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>)</mo>
+                    <mo>&#x2260;</mo>
+                    <mo>&#x2205;</mo>
+                </math>
+                when otherwise.
+                <br>
+                Another example:
+                <br>
+                <code>
+                    var x = 0, y = S;
+                    <br>
+                    function E1() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = y;
+                    <br>
+                    };
+                    <br>
+                    function E2() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspy = 0;
+                    <br>
+                    };
+                </code>
+                <br>
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>,</mo>
+                    <mi>S</mi>
+                    <mo>)</mo>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>,</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>)</mo>
+                </math>
+                represent side effects only depending on state set <math><mi>S</mi></math> and not depending on anything respectively.
+                    
+            </div>
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+
+        <div id='equal'>
+            
+            <h2>Equality</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='equalSpoiler' onclick='toggleSpoiler("equalSpoiler", "equalContents")'>Hide</button>
+            
+            <div id='equalContents'>
+                
+                <h3>Definition</h3>
+                
+                Let
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                be side effects. Then:
+                <br>
+                1.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                2.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x2200;</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E1(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += I;
+                    <br>
+                    };
+                    <br>
+                    function E2(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx *= I;
+                    <br>
+                    };
+                </code>
+                <br>
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mn>2</mn>
+                    <mo>,</mo>
+                    <mn>2</mn>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mn>2</mn>
+                    <mo>,</mo>
+                    <mn>2</mn>
+                    <mo>)</mo>
+                </math>
+                as they both lead to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mn>4</mn>
+                </math>,
+                while
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mn>1</mn>
+                    <mo>,</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mo>&#x2260;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mn>1</mn>
+                    <mo>,</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                </math>
+                as the former and latter lead to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mn>2</mn>
+                </math>
+                and
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mn>1</mn>
+                </math>
+                respectively. So
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2262;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>.
+                <br>
+                On the other hand:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E1(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspreturn x + I;
+                    <br>
+                    };
+                    <br>
+                    function E2(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspreturn x * I;
+                    <br>
+                    };
+                </code>
+                <br>
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                </math>
+                even though they are completely different functions returning completely different values.
+                
+                <h3>Properties</h3>
+                
+                Side effect equalities are transitive, meaning that:
+                <br>
+                1.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                2.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                    </math>
+                </mark>
+                
+            </div>
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+
+        <div id='add'>
+            
+            <h2>Addition</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='addSpoiler' onclick='toggleSpoiler("addSpoiler", "addContents")'>Hide</button>
+            
+            <div id='addContents'>
+                
+                <h3>Definition</h3>
+                
+                Let
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                be side effects. Then
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                    means applying
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>
+                    is immediately followed by applying
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    function E() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspE1();
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspE2();
+                    <br>
+                    };
+                    <br>
+                    function E() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspE2(E1());
+                    <br>
+                    };
+                </code>
+                <br>
+                Here
+                <math>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                for both functions even though those functions are not themselves equivalent.
+                
+                <h3>Properties</h3>
+                
+                1. Side effect additions are associative, meaning that
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>)</mo>
+                    </math>.
+                </mark>
+                <br>
+                The below example illustrates this property:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E1(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += I;
+                    <br>
+                    };
+                    <br>
+                    function E2(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx *= I;
+                    <br>
+                    };
+                    <br>
+                    function E3(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = Math.pow(x, I);
+                    <br>
+                    };
+                </code>
+                <br>
+                Even though both
+                <math>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                    <mo>)</mo>
+                </math>
+                leads to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mo>[</mo>
+                    <mo>(</mo>
+                    <mi>S</mi>
+                    <mo>+</mo>
+                    <mi>I</mi>
+                    <mo>)</mo>
+                    <mi>I</mi>
+                    <msup>
+                        <mo>]</mo>
+                        <mi>I</mi>
+                    </msup>
+                </math>,
+                the former means applying the combined side effects of applying
+                "<math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                immediately followed by applying
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>"
+                will be immediately followed by applying
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                </math>,
+                while the latter means applying
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                will be immediately followed by applying the combined side effects of applying
+                "<math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                immediately followed by applying
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                </math>".
+                <br>
+                <mark>In short, the essential difference is just the ordering of how we reason about those side effects, which does not affect their actual execution orders nor dependencies.</mark>
+                <br>
+                <br>
+                2. Side effect additions are not commutative in general, meaning that
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2262;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = 0;
+                    <br>
+                    function E() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbsp// Contents are here...
+                    <br>
+                    &nbsp&nbsp&nbsp&nbsp//
+                    <br>
+                    };
+                    <br>
+                    function E1() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += 2;
+                    <br>
+                    };
+                    <br>
+                    function E2() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx %= 2;
+                    <br>
+                    };
+                </code>
+                <br>
+                If
+                <math>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>, <math><mi>x</mi></math> will be equal to 0;
+                If
+                <math>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>,
+                <math><mi>x</mi></math> will be equal to 2.
+                <br>
+                <br>
+                3. Side effect additions are not distributive in general, meaning that
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x2260;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>.
+                </mark>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = y = S;
+                    <br>
+                    function E(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspE1(I);
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspE2(x);
+                    <br>
+                    };
+                    <br>
+                    function E1(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += I;
+                    <br>
+                    };
+                    <br>
+                    function E2(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspy *= I;
+                    <br>
+                    };
+                </code>
+                <br>
+                Here
+                <math>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>)</mo>
+                    <mo>(</mo>
+                    <mi>I</mi>
+                    <mo>,</mo>
+                    <mi>S</mi>
+                    <mo>)</mo>
+                </math>
+                leads to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mi>S</mi>
+                    <mo>+</mo>
+                    <mi>I</mi>
+                </math>
+                and
+                <math>
+                    <mi>y</mi>
+                    <mo>=</mo>
+                    <mi>S</mi>
+                    <mo>(</mo>
+                    <mi>S</mi>
+                    <mo>+</mo>
+                    <mi>I</mi>
+                    <mo>)</mo>
+                </math>
+                respectively, while
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mi>I</mi>
+                    <mo>,</mo>
+                    <mi>S</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>(</mo>
+                    <mi>I</mi>
+                    <mo>,</mo>
+                    <mi>S</mi>
+                    <mo>)</mo>
+                </math>
+                leads to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mi>S</mi>
+                    <mo>+</mo>
+                    <mi>I</mi>
+                </math>
+                and
+                <math>
+                    <mi>y</mi>
+                    <mo>=</mo>
+                    <mi>S</mi>
+                    <mi>I</mi>
+                </math>
+                respectively.
+                <br>
+                However,
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>I</mi>
+                            <mn>0</mn>
+                        </msub>
+                        <mo>,</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mn>0</mn>
+                        </msub>
+                        <mo>)</mo>
+                    </math>.
+                </mark>
+                
+                <h3>Additive Identity</h3>
+                
+                Nullipotence is the additive identity, meaning that
+                <mark>
+                    <math>
+                        <mo>&#x2205;</mo>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <mo>&#x2205;</mo>
+                    </math>.
+                </mark>
+                
+                <h3>Theorem</h3>
+                
+                Identity Conservation Theorem
+                <br>
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D0;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                    </math>
+                </mark>
+                <br>
+                Proof:
+                <br>
+                Let the relevant state set right before applying
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                or
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                be <math><mi>S</mi></math>.
+                <br>
+                As
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>,
+                they must lead to be exact same relevant state set,
+                <math>
+                    <msub>
+                        <mi>S</mi>
+                        <mn>0</mn>
+                    </msub>
+                </math>, right after applying either of them.
+                <br>
+                Therefore the relevant state set right after applying <math><mi>E</mi></math> must be the same regardless of whether it immediately follows
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                or
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>.
+                <br>
+                Similarly, if S is obtained right after applying <math><mi>E</mi></math>, then
+                <math>
+                    <msub>
+                        <mi>S</mi>
+                        <mn>0</mn>
+                    </msub>
+                </math>
+                will still be obtained right after applying
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                or
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>.
+                <br>
+                So the Identity Conservation Theorem holds.
+                <br>
+                The converses will be covered in the Subtraction section.
+                
+            </div>
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+        
+        <div id='minus'>
+            
+            <h2>Subtraction</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='minusSpoiler' onclick='toggleSpoiler("minusSpoiler", "minusContents")'>Hide</button>
+            
+            <div id='minusContents'>
+            
+                <h3>Additive Inverse</h3>
+                
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x21CF;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                </mark>
+                <br>
+                In other words,
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                    is the additive inverse of
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>
+                    while the converse is not necessarily true.
+                </mark>
+                <br>
+                On the other hand, if they are indeed additive inverses of each other, then they are symmetry side effects.
+                <br>
+                Therefore,
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                    means applying
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>
+                    is immediately followed by applying the additive inverse of
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                It implies that it is an invalid operation if no such side effect exists.
+                <br>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx *= I;
+                    <br>
+                    };
+                    <br>
+                    function E1(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += I;
+                    <br>
+                    };
+                    <br>
+                    function E2(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx -= I;
+                    <br>
+                    };
+                </code>
+                <br>
+                To evaluate
+                <math>
+                    <mi>E</mi>
+                    <mo>-</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>,
+                the additive inverse of
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                must be found first.
+                <br>
+                As
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                </math>,
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                is the additive inverse of
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>.
+                <br>
+                Therefore
+                <math>
+                    <mi>E</mi>
+                    <mo>-</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <mi>E</mi>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>.
+                <br>
+                In this case, it leads to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mi>I</mi>
+                    <mo>(</mo>
+                    <mi>S</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                </math>.
+                
+                
+                <h3>Properties</h3>
+                
+                1. <mark>Some side effects do not have additive inverses.</mark>
+                <br>
+                For instance, the below side effect does not have any:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = I;
+                    <br>
+                    };
+                </code>
+                <br>
+                The additive inverse of <math><mi>E</mi></math> would be to set the value of <math><mi>x</mi></math> to be the one right before applying <math><mi>E</mi></math>, which is <math><mi>S</mi></math> in this case.
+                <br>
+                However, right after applying <math><mi>E</mi></math>, the previous value of <math><mi>x</mi></math> will be lost forever, making the additive inverse of <math><mi>E</mi></math> impossible to work in reality.
+                <br>
+                Therefore, the additive inverse of <math><mi>E</mi></math> is effectively nonexistent.
+                <br>
+                Note that this can still apply even for side effects being additive inverses of some other side effects.
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E1(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = Math.pow(x, 2);
+                    <br>
+                    };
+                    <br>
+                    function E2(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = Math.sqrt(x);
+                    <br>
+                    };
+                </code>
+                <br>
+                While
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                </math>
+                as
+                <math>
+                    <mo>(</mo>
+                    <msqrt>
+                        <mo>|</mo>
+                        <mi>S</mi>
+                        <mo>|</mo>
+                    </msqrt>
+                    <msup>
+                        <mo>)</mo>
+                        <mn>2</mn>
+                    </msup>
+                    <mo>&#x2261;</mo>
+                    <mo>|</mo>
+                    <mi>S</mi>
+                    <mo>|</mo>
+                    <mo>&#x2227;</mo>
+                    <mo>(</mo>
+                    <msqrt>
+                        <mo>-</mo>
+                        <mo>|</mo>
+                        <mi>S</mi>
+                        <mo>|</mo>
+                    </msqrt>
+                    <msup>
+                        <mo>)</mo>
+                        <mn>2</mn>
+                    </msup>
+                    <mo>&#x2261;</mo>
+                    <mo>-</mo>
+                    <mo>|</mo>
+                    <mi>S</mi>
+                    <mo>|</mo>
+                </math>,
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                does not have an additive inverse as
+                <math>
+                        <mo>|</mo>
+                        <mi>S</mi>
+                        <msup>
+                            <mo>|</mo>
+                            <mn>2</mn>
+                        </msup>
+                    <mo>&#x2261;</mo>
+                        <mo>(</mo>
+                        <mo>-</mo>
+                        <mo>|</mo>
+                        <mi>S</mi>
+                        <mo>|</mo>
+                        <msup>
+                            <mo>)</mo>
+                            <mn>2</mn>
+                        </msup>
+                </math>,
+                meaning that there is no way to reliably recover the state set right before applying
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                right after applying it.
+                <br>
+                <br>
+                2.
+                <mark>
+                    In general, if <math><mi>E</mi></math> does not have an additive inverse, then
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x21CF;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = 0;
+                    <br>
+                    function E1() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += 2;
+                    <br>
+                    };
+                    <br>
+                    function E2() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx++;
+                    <br>
+                    };
+                    <br>
+                    function E() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = 3;
+                    <br>
+                    };
+                </code>
+                <br>
+                While
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>E</mi>
+                </math>
+                as they both lead to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mn>3</mn>
+                </math>,
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2262;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                as the former leads to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mn>2</mn>
+                </math>
+                while the latter leads to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mn>1</mn>
+                </math>.
+                <br>
+                However,
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                Proof:
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>E</mi>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>E</mi>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                </math>
+                (Identity Conservation Theorem)
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mo>&#x2205;</mo>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                (Additive Identity)
+                <br>
+                Therefore this property holds.
+                
+                <h3>Theorem</h3>
+                
+                1. Mutual Inverse Theorem
+                <br>
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                    </math>
+                </mark>
+                <br>
+                Proof:
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <mo>-</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>-</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                (Identity Conservation Theorem)
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>-</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                </math>
+                (Identity Conservation Theorem)
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>3</mn>
+                    </msub>
+                </math>
+                (Additive Identity)
+                <br>
+                So the Mutual Inverse Theorem holds.
+                <br>
+                Note that this theorem implies that side effect additive inverses are antitransitive.
+                <br>
+                <br>
+                2. Identity Conservation Theorem
+                <br>
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                </mark>
+                <br>
+                Proof:
+                <br>
+                Let the relevant state set right after applying <math><mi>E</mi></math> be <math><mi>S</mi></math> and that right after applying either
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                or
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                be
+                <math>
+                    <msub>
+                        <mi>S</mi>
+                        <mn>0</mn>
+                    </msub>
+                </math>.
+                <br>
+                It means that applying both
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                will change the relevant state set from <math><mi>S</mi></math> to
+                <math>
+                    <msub>
+                        <mi>S</mi>
+                        <mn>0</mn>
+                    </msub>
+                </math>.
+                <br>
+                Therefore,
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                are effectively the same.
+                <br>
+                So the Identity Conservation Theorem holds.
+                
+            </div>
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+        
+        <div id='orthogonal'>
+            
+            <h2>Orthogonality</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='orthogonalSpoiler' onclick='toggleSpoiler("orthogonalSpoiler", "orthogonalContents")'>Hide</button>
+            
+            <div id='orthogonalContents'>
+                
+                <h3>Notation</h3>
+                
+                Two side effects are orthogonal to each other if they are not identical and their additions are commutative, meaning that
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x22A5;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2262;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S1, y = S2;
+                    <br>
+                    function E1() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += I;
+                    <br>
+                    };
+                    <br>
+                    function E2(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspy += I;
+                    <br>
+                    };
+                </code>
+                <br>
+                Here
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x22A5;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                because:
+                <br>
+                1.
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                changes the values of <math><mi>x</mi></math> and <math><mi>y</mi></math> respectively, meaning that
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>&#x2262;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>.
+                <br>
+                2.
+                Both
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>
+                leads to
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <msub>
+                        <mi>S</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>I</mi>
+                </math>
+                and
+                <math>
+                    <mi>y</mi>
+                    <mo>=</mo>
+                    <msub>
+                        <mi>S</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <mi>I</mi>
+                </math>,
+                meaning that
+                <math>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>2</mn>
+                    </msub>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mn>1</mn>
+                    </msub>
+                </math>.
+                
+            </div>
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+        
+        <div id='nullipotent'>
+            
+            <h2>Nullipotence</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='nullipotentSpoiler' onclick='toggleSpoiler("nullipotentSpoiler", "nullipotentContents")'>Hide</button>
+            
+            <div id='nullipotentContents'>
+                
+                <h3>Involution</h3>
+                
+                <mark>
+                    <math>
+                        <mn>2</mn>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                    </math>
+                    means <math><mi>E</mi></math> is involutory.
+                </mark>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = -x;
+                    <br>
+                    };
+                </code>
+                <br>
+                As
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mi>S</mi>
+                </math>
+                after calling <math><mi>E</mi></math> twice, which is the same as not calling anything at all,
+                <math>
+                    <mn>2</mn>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                </math>.
+                <br>
+                Note that nullipotence implies involution.
+                
+                <h3>Periodic</h3>
+                
+                A side effect being nullipotent if applied a certain number of times consecutively is periodic, meaning that
+                <mark>
+                    <math>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mi>n</mi>
+                        <mo>&#x21D2;</mo>
+                        <mi>n</mi>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x21D2;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                    </math>.
+                </mark>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = 0;
+                    <br>
+                    function E() {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += 1;
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx %= 60;
+                    <br>
+                    };
+                </code>
+                <br>
+                As
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mi>0</mi>
+                </math>
+                after calling <math><mi>E</mi></math> 60 times, which is the same as not calling anything at all,
+                <math>
+                    <mn>60</mn>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>&#x21D2;</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>&#x2264;</mo>
+                    <mi>60</mi>
+                </math>.
+                <br>
+                Note that the above still holds even if 60 is replaced by 120, so
+                <math>
+                    <mn>n</mn>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>&#x21D2;</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>&#x2264;</mo>
+                    <mi>n</mi>
+                </math>
+                instead of
+                <math>
+                    <mn>n</mn>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                    <mo>&#x21D2;</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mi>n</mi>
+                </math>.
+                <br>
+                Also:
+                <br>
+                1.
+                <math>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mn>1</mn>
+                    <mo>&#x21D4;</mo>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2205;</mo>
+                </math>
+                <br>
+                2.
+                <math>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mn>2</mn>
+                    <mo>&#x21D4;</mo>
+                    <mi>E</mi>
+                </math>
+                is involutory.
+                <br>
+                3.
+                <math>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mo>&#x221E;</mo>
+                    <mo>&#x21D4;</mo>
+                    <mi>E</mi>
+                </math>
+                is not periodic.
+                
+                <h3>Theorem</h3>
+                
+                1. Period Modulo Theorem
+                <br>
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <mi>m</mi>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <mi>n</mi>
+                        <mo>)</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>n</mi>
+                        <mi>E</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>m</mi>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                        <mo>&#x222A;</mo>
+                        <mo>{</mo>
+                        <mn>0</mn>
+                        <mo>}</mo>
+                        <mo>&#x2227;</mo>
+                        <mi>n</mi>
+                        <mo>&lt;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&lt;</mo>
+                        <mo>&#x221E;</mo>
+                    </math>
+                </mark>
+                <br>
+                Proof:
+                <br>
+                <math>
+                    <mo>(</mo>
+                    <mi>m</mi>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mi>n</mi>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mi>m</mi>
+                    <mo>(</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mi>n</mi>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mi>m</mi>
+                    <mo>&#x2205;</mo>
+                    <mo>+</mo>
+                    <mi>n</mi>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mi>n</mi>
+                    <mi>E</mi>
+                </math>
+                (Additive Identity)
+                <br>
+                So the Period Modulo Theorem holds.
+                <br>
+                <br>
+                2. Composite Period Theorem
+                <br>
+                <mark>
+                    If <math><mi>E</mi></math> only consists of
+                    <math>
+                        <msub>
+                            <mi>m</mi>
+                            <mi>i</mi>
+                        </msub>
+                    </math>
+                    times of
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>&#x2200;</mo>
+                        <mi>i</mi>
+                        <mo>&#x2208;</mo>
+                        <mo>[</mo>
+                        <mn>1</mn>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>]</mo>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>&#x22A5;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>j</mi>
+                        </msub>
+                        <mo>&#x2200;</mo>
+                        <mi>j</mi>
+                        <mo>&#x2208;</mo>
+                        <mo>[</mo>
+                        <mn>1</mn>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>]</mo>
+                        <mo>\</mo>
+                        <mo>{</mo>
+                        <mi>i</mi>
+                        <mo>}</mo>
+                        <mo>&#x2227;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>&lt;</mo>
+                        <mo>&#x221E;</mo>
+                    </math>, then
+                    <math>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                    </math>
+                    the smallest integer not smaller than
+                    <math>
+                        <mroot>
+                            <mrow>
+                                <munderover>
+                                    <mo>&#x220F;</mo>
+                                    <mrow>
+                                        <mi>i</mi>
+                                        <mo>=</mo>
+                                        <mn>1</mn>
+                                    </mrow>
+                                    <mi>n</mi>
+                                </munderover>
+                                <mfrac>
+                                    <mrow>
+                                        <msub>
+                                            <mi>p</mi>
+                                            <mi>i</mi>
+                                        </msub>
+                                        <mi>P</mi>
+                                        <mo>(</mo>
+                                        <msub>
+                                            <mi>E</mi>
+                                            <mi>i</mi>
+                                        </msub>
+                                        <mo>)</mo>
+                                    </mrow>
+                                    <msub>
+                                        <mi>m</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                </mfrac>
+                            </mrow>
+                            <mi>n</mi>
+                        </mroot>
+                        <mo>&#x2264;</mo>
+                        <munderover>
+                            <mo>&#x220F;</mo>
+                            <mrow>
+                                <mi>i</mi>
+                                <mo>=</mo>
+                                <mn>1</mn>
+                            </mrow>
+                            <mi>n</mi>
+                        </munderover>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                            </msub>
+                        <mo>)</mo>
+                        <mo>&#x2203;</mo>
+                        <msub>
+                            <mi>p</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                    </math>.
+                </mark>
+                <br>
+                Proof:
+                <br>
+                As every side effect constituting <math><mi>E</mi></math> is orthogonal to each other, using their commutative property:
+                <br>
+                <math>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <munderover>
+                        <mo>&#x2211;</mo>
+                        <mrow>
+                            <mi>i</mi>
+                            <mo>=</mo>
+                            <mn>1</mn>
+                        </mrow>
+                        <mi>n</mi>
+                    </munderover>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                <br>
+                <math>
+                    <mo>(</mo>
+                    <mrow>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <mn>1</mn>
+                        <mo>)</mo>
+                    </mrow>
+                    <munderover>
+                        <mo>&#x2211;</mo>
+                        <mrow>
+                            <mi>i</mi>
+                            <mo>=</mo>
+                            <mn>1</mn>
+                        </mrow>
+                        <mi>n</mi>
+                    </munderover>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <munderover>
+                        <mo>&#x2211;</mo>
+                        <mrow>
+                            <mi>i</mi>
+                            <mo>=</mo>
+                            <mn>1</mn>
+                        </mrow>
+                        <mi>n</mi>
+                    </munderover>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                (Period Modulo Theorem)
+                <br>
+                <math>
+                    <mo>(</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>&#x2200;</mo>
+                    <mi>i</mi>
+                    <mo>&#x2208;</mo>
+                    <mo>[</mo>
+                    <mn>1</mn>
+                    <mo>,</mo>
+                    <mi>n</mi>
+                    <mo>]</mo>
+                </math>
+                <br>
+                <math>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>p</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>)</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>&#x2261;</mo>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>&#x2203;</mo>
+                    <msub>
+                        <mi>p</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>&#x2208;</mo>
+                    <mi>&#x2115;</mi>
+                </math>
+                (Period Modulo Theorem)
+                <br>
+                <math>
+                    <mo>(</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>&#x2264;</mo>
+                    <msub>
+                        <mi>p</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                <br>
+                <math>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>&#x2264;</mo>
+                    <mfrac>
+                        <mrow>
+                            <msub>
+                                <mi>p</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mi>P</mi>
+                            <mo>(</mo>
+                            <msub>
+                                <mi>E</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mo>)</mo>
+                        </mrow>
+                        <msub>
+                            <mi>m</mi>
+                            <mi>i</mi>
+                        </msub>
+                    </mfrac>
+                </math>
+                <br>
+                <math>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <msup>
+                        <mo>)</mo>
+                        <mi>n</mi>
+                    </msup>
+                    <mo>&#x2264;</mo>
+                    <munderover>
+                        <mo>&#x220F;</mo>
+                        <mrow>
+                            <mi>i</mi>
+                            <mo>=</mo>
+                            <mn>1</mn>
+                        </mrow>
+                        <mi>n</mi>
+                    </munderover>
+                    <mfrac>
+                        <mrow>
+                            <msub>
+                                <mi>p</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mi>P</mi>
+                            <mo>(</mo>
+                            <msub>
+                                <mi>E</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mo>)</mo>
+                        </mrow>
+                        <msub>
+                            <mi>m</mi>
+                            <mi>i</mi>
+                        </msub>
+                    </mfrac>
+                </math>
+                <br>
+                <math>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>&#x2264;</mo>
+                </math>
+                the smallest integer not smaller than
+                <math>
+                    <mroot>
+                        <mrow>
+                            <munderover>
+                                <mo>&#x220F;</mo>
+                                <mrow>
+                                    <mi>i</mi>
+                                    <mo>=</mo>
+                                    <mn>1</mn>
+                                </mrow>
+                                <mi>n</mi>
+                            </munderover>
+                            <mfrac>
+                                <mrow>
+                                    <msub>
+                                        <mi>p</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                    <mi>P</mi>
+                                    <mo>(</mo>
+                                    <msub>
+                                        <mi>E</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                    <mo>)</mo>
+                                </mrow>
+                                <msub>
+                                    <mi>m</mi>
+                                    <mi>i</mi>
+                                </msub>
+                            </mfrac>
+                        </mrow>
+                        <mi>n</mi>
+                    </mroot>
+                </math>
+                <br>
+                Setting
+                <math>
+                    <msub>
+                        <mi>p</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                as
+                <math>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <msup>
+                        <mo>)</mo>
+                        <mrow>
+                            <mi>n</mi>
+                            <mo>-</mo>
+                            <mn>1</mn>
+                        </mrow>
+                    </msup>
+                </math>,
+                <br>
+                <math>
+                    <mroot>
+                        <mrow>
+                            <munderover>
+                                <mo>&#x220F;</mo>
+                                <mrow>
+                                    <mi>i</mi>
+                                    <mo>=</mo>
+                                    <mn>1</mn>
+                                </mrow>
+                                <mi>n</mi>
+                            </munderover>
+                            <mfrac>
+                                <mrow>
+                                    <msub>
+                                        <mi>p</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                    <mi>P</mi>
+                                    <mo>(</mo>
+                                    <msub>
+                                        <mi>E</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                    <mo>)</mo>
+                                </mrow>
+                                <msub>
+                                    <mi>m</mi>
+                                    <mi>i</mi>
+                                </msub>
+                            </mfrac>
+                        </mrow>
+                        <mi>n</mi>
+                    </mroot>
+                </math>
+                <br>
+                <math>
+                    <mo>=</mo>
+                    <mroot>
+                        <mrow>
+                            <munderover>
+                                <mo>&#x220F;</mo>
+                                <mrow>
+                                    <mi>i</mi>
+                                    <mo>=</mo>
+                                    <mn>1</mn>
+                                </mrow>
+                                <mi>n</mi>
+                            </munderover>
+                            <mfrac>
+                                <mrow>
+                                    <msub>
+                                        <mi>m</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                    <mi>P</mi>
+                                    <mo>(</mo>
+                                    <msub>
+                                        <mi>E</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                    <msup>
+                                        <mo>)</mo>
+                                        <mrow>
+                                            <mi>n</mi>
+                                            <mo>-</mo>
+                                            <mn>1</mn>
+                                        </mrow>
+                                    </msup>
+                                    <mi>P</mi>
+                                    <mo>(</mo>
+                                    <msub>
+                                        <mi>E</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                    <mo>)</mo>
+                                </mrow>
+                                <msub>
+                                    <mi>m</mi>
+                                    <mi>i</mi>
+                                </msub>
+                            </mfrac>
+                        </mrow>
+                        <mi>n</mi>
+                    </mroot>
+                </math>
+                <br>
+                <math>
+                    <mo>=</mo>
+                    <mroot>
+                        <mrow>
+                            <munderover>
+                                <mo>&#x220F;</mo>
+                                <mrow>
+                                    <mi>i</mi>
+                                    <mo>=</mo>
+                                    <mn>1</mn>
+                                </mrow>
+                                <mi>n</mi>
+                            </munderover>
+                            <mi>P</mi>
+                            <mo>(</mo>
+                            <msub>
+                                <mi>E</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <msup>
+                                <mo>)</mo>
+                                <mi>n</mi>
+                            </msup>
+                        </mrow>
+                        <mi>n</mi>
+                    </mroot>
+                </math>
+                <br>
+                <math>
+                    <mo>=</mo>
+                    <mroot>
+                        <mrow>
+                            <mo>(</mo>
+                            <munderover>
+                                <mo>&#x220F;</mo>
+                                <mrow>
+                                    <mi>i</mi>
+                                    <mo>=</mo>
+                                    <mn>1</mn>
+                                </mrow>
+                                <mi>n</mi>
+                            </munderover>
+                            <mi>P</mi>
+                            <mo>(</mo>
+                            <msub>
+                                <mi>E</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mo>)</mo>
+                            <msup>
+                                <mo>)</mo>
+                                <mi>n</mi>
+                            </msup>
+                        </mrow>
+                        <mi>n</mi>
+                    </mroot>
+                </math>
+                <br>
+                <math>
+                    <mo>=</mo>
+                    <munderover>
+                        <mo>&#x220F;</mo>
+                        <mrow>
+                            <mi>i</mi>
+                            <mo>=</mo>
+                            <mn>1</mn>
+                        </mrow>
+                        <mi>n</mi>
+                    </munderover>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>)</mo>
+                </math>
+                <br>
+                So the Composite Period Theorem holds.
+                <br>
+                Note that by setting
+                <math>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>)</mo>
+                </math>
+                as 1 and 2 respectively, this theorem implies that a side effect is involutory if it only consists of involutory side effects that are all orthogonal to each other.
+                
+            </div>
+            
+        </div>
+            
+        <br>
+        
+        <hr>
+        
+        <div id='multiplicity'>
+            
+            <h2>Multiplicity</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='multiplicitySpoiler' onclick='toggleSpoiler("multiplicitySpoiler", "multiplicityContents")'>Hide</button>
+            
+            <div id='multiplicityContents'>
+                
+                <h3>Notation</h3>
+                
+                A side effect is said to have a multiplicity if applying it a certain number of times is equivalent to applying it once, meaning that
+                <mark>
+                    <math>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mi>n</mi>
+                        <mo>&#x21D2;</mo>
+                        <mo>(</mo>
+                        <mi>n</mi>
+                        <mo>+</mo>
+                        <mn>1</mn>
+                        <mo>)</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>&#x21D2;</mo>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                    </math>.
+                </mark>
+                <br>
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx = I;
+                    <br>
+                    };
+                </code>
+                <br>
+                Here
+                <math>
+                    <mn>2</mn>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mo>(</mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mi>E</mi>
+                    <mo>&#x21D2;</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>&#x2264;</mo>
+                    <mn>1</mn>
+                </math>
+                <br>
+                Note that the above still holds even if
+                <math>
+                    <mi>n</mi>
+                    <mo>&gt;</mo>
+                    <mn>1</mn>
+                </math>,
+                so
+                <math>
+                    <mo>(</mo>
+                    <mi>n</mi>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mi>E</mi>
+                    <mo>&#x21D2;</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>&#x2264;</mo>
+                    <mi>n</mi>
+                </math>
+                instead of
+                <math>
+                    <mo>(</mo>
+                    <mi>n</mi>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                    <mo>&#x2261;</mo>
+                    <mi>E</mi>
+                    <mo>&#x21D2;</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mi>n</mi>
+                </math>.
+                <br>
+                Also:
+                <br>
+                1.
+                <math>
+                    <mi>n</mi>
+                    <mo>=</mo>
+                    <mn>1</mn>
+                </math>
+                implies idempotence.
+                <br>
+                2.
+                <math>
+                    <mi>n</mi>
+                    <mo>=</mo>
+                    <mo>&#x221E;</mo>
+                </math>
+                implies the side effect does not have a multiplicity.
+                <br>
+                For instance:
+                <br>
+                <code>
+                    var x = S;
+                    <br>
+                    function E(I) {
+                    <br>
+                    &nbsp&nbsp&nbsp&nbspx += I;
+                    <br>
+                    };
+                </code>
+                <br>
+                As
+                <math>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mi>S</mi>
+                    <mo>+</mo>
+                    <mi>n</mi>
+                    <mi>I</mi>
+                </math>
+                after calling <math><mi>E</mi></math> <math><mi>n</mi></math> times, <math><mi>E</mi></math> does not have a multiplicity.
+                
+                <h3>Properties</h3>
+                
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>&#x2262;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x2227;</mo>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mn>1</mn>
+                        <mo>&#x21D2;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mo>&#x221E;</mo>
+                    </math>
+                </mark>
+                <br>
+                Proof:
+                <br>
+                As an idempotent side effect means applying it twice consecutively is equivalent to applying it once, so does applying it an arbitrary number of times.
+                <br>
+                On the other hand, if it were also periodic, it would mean applying it a certain number of times would lead to nullipotence.
+                <br>
+                If both of the above would hold, it would mean the side effect itself were nullipotent, which is a contradiction.
+                <br>
+                Therefore this property holds.
+                
+                <h3>Theorem</h3>
+                
+                1. Period-Multiplicity Theorem
+                <br>
+                <mark>
+                    <math>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                Proof:
+                <br>
+                <math>
+                    <mo>(</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mi>E</mi>
+                </math>
+                (Period Modulo Theorem)
+                <br>
+                <math>
+                    <mo>&#x21D2;</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>&#x2264;</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                </math>
+                <br>
+                So the Period-Multiplicity Theorem holds.
+                <br>
+                Note that it implies that a side effect not having a multiplicity must be not periodic as
+                <math>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mo>&#x221E;</mo>
+                    <mo>&#x21D2;</mo>
+                    <mi>P</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <mo>&#x221E;</mo>
+                </math>.
+                <br>
+                <br>
+                2. Multiplicity Modulo Theorem
+                <br>
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <mi>m</mi>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <mi>n</mi>
+                        <mo>)</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>n</mi>
+                        <mi>E</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>m</mi>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                        <mo>&#x2227;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2264;</mo>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&lt;</mo>
+                        <mo>&#x221E;</mo>
+                    </math>
+                </mark>
+                <br>
+                Proof:
+                <br>
+                <math>
+                    <mo>(</mo>
+                    <mi>m</mi>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mi>n</mi>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mo>[</mo>
+                    <mo>(</mo>
+                    <mi>m</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mi>n</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>]</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mo>(</mo>
+                    <mi>m</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                    <mo>+</mo>
+                    <mo>(</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                    <mo>+</mo>
+                    <mo>(</mo>
+                    <mi>n</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mo>(</mo>
+                    <mi>m</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                    <mo>+</mo>
+                    <mi>E</mi>
+                    <mo>+</mo>
+                    <mo>(</mo>
+                    <mi>n</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mo>[</mo>
+                    <mo>(</mo>
+                    <mi>m</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <mi>E</mi>
+                    <mo>)</mo>
+                    <mo>+</mo>
+                    <mi>n</mi>
+                    <mo>]</mo>
+                    <mi>E</mi>
+                </math>
+                <br>
+                <math>
+                    <mo>&#x2261;</mo>
+                    <mo>&#x2026;</mo>
+                    <mo>&#x2261;</mo>
+                    <mi>n</mi>
+                    <mi>E</mi>
+                </math>
+                <br>
+                So the Multiplicity Modulo Theorem holds.
+                <br>
+                <br>
+                3. Composite Multiplicity Theorem
+                <br>
+                It and its proof are exactly the same as those of the Composite Period Theorem, only with <math><mi>P</mi></math> and Period Modulo Theorem replaced by <math><mi>M</mi></math> and Multiplicity Modulo Theorem respectively.
+                <br>
+                Note that by setting both
+                <math>
+                    <msub>
+                        <mi>m</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                and
+                <math>
+                    <mi>M</mi>
+                    <mo>(</mo>
+                    <msub>
+                        <mi>E</mi>
+                        <mi>i</mi>
+                    </msub>
+                    <mo>)</mo>
+                </math>
+                as 1, this theorem implies that a side effect is idempotent if it only consists of idempotent side effects that are all orthogonal to each other.
+                
+            </div>
+            
+        </div>
+        
+        <br>
+        
+        <hr>
+        
+        <div id='summary'>
+            
+            <h2>Summary</h2>
+            
+            <a href='#contents'>Back To Contents</a>
+            
+            <br>
+            <br>
+            
+            <button id='summarySpoiler' onclick='toggleSpoiler("summarySpoiler", "summaryContents")'>Hide</button>
+            
+            <div id='summaryContents'>
+
+                <h3>Notation</h3>
+                
+                1.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                    means <math><mi>E</mi></math> is based on input set <math><mi>I</mi></math> and state set <math><mi>S</mi></math>.
+                </mark>
+                <br>
+                2.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mo>&#x2205;</mo>
+                    </math>
+                    means <math><mi>E</mi></math> is effectively nullipotent for input set <math><mi>I</mi></math> and state set <math><mi>S</mi></math>.
+                </mark>
+                <br>
+                3.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                    means <math><mi>E</mi></math> does not depend on any input set.
+                </mark>
+                <br>
+                4.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>)</mo>
+                    </math>
+                    means <math><mi>E</mi></math> does not depend on any state set.
+                </mark>
+                <br>
+                5.
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>,</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>)</mo>
+                    </math>
+                    means both of the above.
+                </mark>
+                <br>
+                6.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>n</mi>
+                        </msub>
+                    </math>
+                    means the relevant state set is changed from
+                    <math>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                    </math>
+                    to
+                    <math>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>n</mi>
+                        </msub>
+                    </math>
+                    by applying
+                    <math>
+                        <mi>E</mi>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>.
+                
+                <h3>Equality</h3>
+                
+                1.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mi>o</mi>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                2.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x2200;</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                1.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                2.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                    </math>
+                </mark>
+                
+                <h3>Addition</h3>
+                
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                    means applying
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>
+                    is immediately followed by applying
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                <br>
+                1.
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                2.
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2262;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>
+                </mark>
+                <br>
+                3.
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>&#x2260;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <mi>I</mi>
+                        <mo>,</mo>
+                        <mi>S</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>I</mi>
+                            <mn>0</mn>
+                        </msub>
+                        <mo>,</mo>
+                        <msub>
+                            <mi>S</mi>
+                            <mn>0</mn>
+                        </msub>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                <mark>
+                    <math>
+                        <mo>&#x2205;</mo>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <mo>&#x2205;</mo>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D0;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                    </math>
+                </mark>
+                
+                
+                <h3>Subtraction</h3>
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x21CF;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                1. <mark>Some side effects do not have additive inverses.</mark>
+                <br>2.
+                <mark>
+                    In general, if <math><mi>E</mi></math> does not have an additive inverse, then
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x21CF;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>.
+                </mark>
+                <br>
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>E</mi>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mo>-</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>3</mn>
+                        </msub>
+                    </math>
+                </mark>
+                <br>
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D2;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                    </math>
+                </mark>
+                
+                <h3>Orthogonality</h3>
+
+                <mark>
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x22A5;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x21D4;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>&#x2262;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>&#x2261;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>2</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mn>1</mn>
+                        </msub>
+                    </math>
+                </mark>
+                
+                <h3>Nullipotence</h3>
+                
+                <mark>
+                    <math>
+                        <mn>2</mn>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                    </math>
+                    means <math><mi>E</mi></math> is involutory.
+                </mark>
+                <br>
+                <br>
+                <mark>
+                    <math>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mi>n</mi>
+                        <mo>&#x21D2;</mo>
+                        <mi>n</mi>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x21D2;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <mi>m</mi>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <mi>n</mi>
+                        <mo>)</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>n</mi>
+                        <mi>E</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>m</mi>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                        <mo>&#x222A;</mo>
+                        <mo>{</mo>
+                        <mn>0</mn>
+                        <mo>}</mo>
+                        <mo>&#x2227;</mo>
+                        <mi>n</mi>
+                        <mo>&lt;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&lt;</mo>
+                        <mo>&#x221E;</mo>
+                    </math>
+                </mark>
+                <br>
+                <mark>
+                    If <math><mi>E</mi></math> only consists of
+                    <math>
+                        <msub>
+                            <mi>m</mi>
+                            <mi>i</mi>
+                        </msub>
+                    </math>
+                    times of
+                    <math>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>&#x2200;</mo>
+                        <mi>i</mi>
+                        <mo>&#x2208;</mo>
+                        <mo>[</mo>
+                        <mn>1</mn>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>]</mo>
+                        <mo>&#x2227;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>&#x22A5;</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>j</mi>
+                        </msub>
+                        <mo>&#x2200;</mo>
+                        <mi>j</mi>
+                        <mo>&#x2208;</mo>
+                        <mo>[</mo>
+                        <mn>1</mn>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>]</mo>
+                        <mo>\</mo>
+                        <mo>{</mo>
+                        <mi>i</mi>
+                        <mo>}</mo>
+                        <mo>&#x2227;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>)</mo>
+                        <mo>&lt;</mo>
+                        <mo>&#x221E;</mo>
+                    </math>, then
+                    <math>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                    </math>
+                    the smallest integer not smaller than
+                    <math>
+                        <mroot>
+                            <mrow>
+                                <munderover>
+                                    <mo>&#x220F;</mo>
+                                    <mrow>
+                                        <mi>i</mi>
+                                        <mo>=</mo>
+                                        <mn>1</mn>
+                                    </mrow>
+                                    <mi>n</mi>
+                                </munderover>
+                                <mfrac>
+                                    <mrow>
+                                        <msub>
+                                            <mi>p</mi>
+                                            <mi>i</mi>
+                                        </msub>
+                                        <mi>P</mi>
+                                        <mo>(</mo>
+                                        <msub>
+                                            <mi>E</mi>
+                                            <mi>i</mi>
+                                        </msub>
+                                        <mo>)</mo>
+                                    </mrow>
+                                    <msub>
+                                        <mi>m</mi>
+                                        <mi>i</mi>
+                                    </msub>
+                                </mfrac>
+                            </mrow>
+                            <mi>n</mi>
+                        </mroot>
+                        <mo>&#x2264;</mo>
+                        <munderover>
+                            <mo>&#x220F;</mo>
+                            <mrow>
+                                <mi>i</mi>
+                                <mo>=</mo>
+                                <mn>1</mn>
+                            </mrow>
+                            <mi>n</mi>
+                        </munderover>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <msub>
+                            <mi>E</mi>
+                            <mi>i</mi>
+                            </msub>
+                        <mo>)</mo>
+                        <mo>&#x2203;</mo>
+                        <msub>
+                            <mi>p</mi>
+                            <mi>i</mi>
+                        </msub>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                    </math>.
+                </mark>
+                
+                <h3>Multiplicity</h3>
+                
+                <mark>
+                    <math>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mi>n</mi>
+                        <mo>&#x21D2;</mo>
+                        <mo>(</mo>
+                        <mi>n</mi>
+                        <mo>+</mo>
+                        <mn>1</mn>
+                        <mo>)</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>E</mi>
+                        <mo>&#x21D2;</mo>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                <mark>
+                    <math>
+                        <mi>E</mi>
+                        <mo>&#x2262;</mo>
+                        <mo>&#x2205;</mo>
+                        <mo>&#x2227;</mo>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mn>1</mn>
+                        <mo>&#x21D2;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mo>&#x221E;</mo>
+                    </math>
+                </mark>
+                <br>
+                <br>
+                <mark>
+                    <math>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&#x2264;</mo>
+                        <mi>P</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                    </math>
+                </mark>
+                <br>
+                <mark>
+                    <math>
+                        <mo>(</mo>
+                        <mi>m</mi>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <mi>n</mi>
+                        <mo>)</mo>
+                        <mi>E</mi>
+                        <mo>&#x2261;</mo>
+                        <mi>n</mi>
+                        <mi>E</mi>
+                        <mo>&#x2200;</mo>
+                        <mi>m</mi>
+                        <mo>,</mo>
+                        <mi>n</mi>
+                        <mo>&#x2208;</mo>
+                        <mi>&#x2115;</mi>
+                        <mo>&#x2227;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2264;</mo>
+                        <mi>M</mi>
+                        <mo>(</mo>
+                        <mi>E</mi>
+                        <mo>)</mo>
+                        <mo>&lt;</mo>
+                        <mo>&#x221E;</mo>
+                    </math>
+                </mark>
+                <br>
+                The Composite Multiplicity Theorem and its proof are exactly the same as those of the Composite Period Theorem, only with <math><mi>P</mi></math> and Period Modulo Theorem replaced by <math><mi>M</mi></math> and Multiplicity Modulo Theorem respectively.
+                
+                
+            </div>
+                
+        </div>
+            
+        <br>
+        
+        <hr>
+        
+        <script>
+            // Ensures all the hideable contents are initially hidden
+            (function() {
+                var caseContentSpoilers = {
+                    notationSpoiler: 'notationContents',
+                    equalSpoiler: 'equalContents',
+                    addSpoiler: 'addContents',
+                    minusSpoiler: 'minusContents',
+                    nullipotentSpoiler: 'nullipotentContents',
+                    orthogonalSpoiler: 'orthogonalContents',
+                    multiplicitySpoiler: 'multiplicityContents',
+                    summarySpoiler: 'summaryContents',
+                };
+                Object.keys(caseContentSpoilers).forEach(function(spoilerId) {
+                    toggleSpoiler(spoilerId, caseContentSpoilers[spoilerId]);
+                });
+            })();
+        </script>
+
+    </body>
+
+</html>
